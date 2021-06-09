@@ -1,8 +1,9 @@
-from flask import Flask, jsonify,render_template, request
-app = Flask(__name__)
-@app.route("/")
-def hello():
-    return render_template('hostingstart-python.html')
 
-if __name__ == '__main__':
-    app.run(port=5002, threaded=True)
+import sys
+import platform
+
+def application(environ, start_response):
+    start_response(b'200 OK', [(b'Content-Type', b'text/html')])
+    with open ("hostingstart-python.html", "r") as hostingstart_file:
+        hosting = hostingstart_file.read()
+        yield hosting.encode('utf8').replace(b'PYTHON_VERSION', platform.python_version().encode('utf8'))
